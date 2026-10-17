@@ -14,6 +14,8 @@ const ART: Partial<Record<PictureId, (u: string) => ReactNode>> = {
   cake: (u) => <StickerArtRaw id="st-cake" u={u} />,
   crab: (u) => <StickerArtRaw id="st-crab" u={u} />,
   castle: (u) => <StickerArtRaw id="st-pink-castle" u={u} />,
+  unicorn: (u) => <StickerArtRaw id="st-unicorn" u={u} />,
+  rainbow: (u) => <StickerArtRaw id="st-rainbow" u={u} />,
   star: () => star(100, 104, 74),
   'stars-1': () => star(100, 104, 50),
   'stars-2': () => (

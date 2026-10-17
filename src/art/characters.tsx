@@ -11,6 +11,8 @@ import { REWARD_BY_ID, type DressItem, type Slot } from '../data/rewards';
 import type { CharacterId, Outfit } from '../engine/types';
 import { heartPath, INK, PatternDef, Sparkle, starPoints } from './primitives';
 
+const RAINBOW = ['#ff6b6b', '#ffa94d', '#ffd23f', '#69db7c', '#5fb8ff', '#b48cff'];
+
 export const CHAR_W = 300;
 export const CHAR_H = 460;
 
@@ -180,6 +182,7 @@ const SKIRTS: Record<string, string> = {
   bubble: 'M124 246 Q78 280 92 330 Q120 352 150 344 Q180 352 208 330 Q222 280 176 246Z',
   layered: 'M124 246 Q104 300 96 330 Q150 342 204 330 Q196 300 176 246Z M98 322 Q86 360 76 380 Q150 396 224 380 Q214 360 202 322Z M80 372 Q72 392 64 410 Q150 428 236 410 Q228 392 220 372Z',
   rainbow: 'M124 246 Q96 320 60 404 Q150 426 240 404 Q204 320 176 246Z',
+  unicorn: 'M124 246 L92 380 Q150 394 208 380 L176 246Z',
 };
 
 function Dress({ item, u }: { item: DressItem; u: string }) {
@@ -203,10 +206,25 @@ function Dress({ item, u }: { item: DressItem; u: string }) {
       ) : (
         patterned(u, item, skirt, 'sk')
       )}
+      {item.style === 'unicorn' && (
+        <g>
+          <defs>
+            <clipPath id={`${u}uh`}>
+              <path d={skirt} />
+            </clipPath>
+          </defs>
+          <g clipPath={`url(#${u}uh)`}>
+            {RAINBOW.map((col, i) => (
+              <rect key={col} x={80} y={340 + i * 8} width={140} height={9} fill={col} />
+            ))}
+          </g>
+          <polygon points={starPoints(150, 300, 16)} fill={trim} />
+        </g>
+      )}
       {item.style === 'layered' && <path d="M98 330 Q150 342 202 330 M78 380 Q150 396 222 380" stroke={trim} strokeWidth={5} fill="none" opacity={0.8} />}
       {item.style === 'tutu' && <path d="M106 296 L96 324 M194 296 L204 324" stroke={accent} strokeWidth={4} />}
       {/* hem trim */}
-      {item.style !== 'tutu' && item.style !== 'bubble' && item.style !== 'layered' && (
+      {item.style !== 'tutu' && item.style !== 'bubble' && item.style !== 'layered' && item.style !== 'unicorn' && (
         <path d={item.style === 'aline' ? 'M92 380 Q150 394 208 380' : 'M60 404 Q150 426 240 404'} stroke={trim} strokeWidth={6} fill="none" strokeLinecap="round" />
       )}
       {/* bodice + puff sleeves */}
@@ -227,7 +245,20 @@ function Tail({ item, u }: { item: DressItem; u: string }) {
   const [main, accent, trim] = item.colors;
   return (
     <g>
-      {item.style === 'rainbow' ? (
+      {item.style === 'unicorn' ? (
+        <g>
+          <defs>
+            <linearGradient id={`${u}ug`} x1="0" y1="0" x2="0.3" y2="1">
+              <stop offset="0" stopColor={main} />
+              <stop offset="0.5" stopColor={accent} />
+              <stop offset="1" stopColor="#bff3e6" />
+            </linearGradient>
+            <PatternDef id={`${u}us`} pattern="stars" color="#ffffff" />
+          </defs>
+          <path d={TAIL} fill={`url(#${u}ug)`} />
+          <path d={TAIL} fill={`url(#${u}us)`} opacity={0.7} />
+        </g>
+      ) : item.style === 'rainbow' ? (
         <g>
           <defs>
             <clipPath id={`${u}rt`}>
@@ -251,7 +282,22 @@ function Tail({ item, u }: { item: DressItem; u: string }) {
       ) : (
         patterned(u, item, TAIL, 'tl')
       )}
-      <path d={FIN} fill={accent} />
+      {item.style === 'unicorn' ? (
+        <g>
+          <defs>
+            <clipPath id={`${u}uf`}>
+              <path d={FIN} />
+            </clipPath>
+          </defs>
+          <g clipPath={`url(#${u}uf)`}>
+            {RAINBOW.map((col, i) => (
+              <rect key={col} x={88 + i * 21} y={390} width={22} height={60} fill={col} />
+            ))}
+          </g>
+        </g>
+      ) : (
+        <path d={FIN} fill={accent} />
+      )}
       <path d="M150 400 L118 436 M150 400 L134 440 M150 400 L166 440 M150 400 L182 436" stroke={main} strokeWidth={3} opacity={0.6} />
       {item.style === 'ruffle' && <path d="M116 248 q8 12 16 0 q8 12 18 0 q10 12 18 0 q8 12 16 0" fill={trim} stroke={accent} strokeWidth={3} />}
       {item.style === 'sparkle' && (
@@ -280,6 +326,35 @@ function ShellTop() {
 function Crown({ item }: { item: DressItem; u?: string }) {
   const [main, accent, trim] = item.colors;
   switch (item.style) {
+    case 'unicorn':
+      return (
+        <g>
+          <path d="M100 82 Q150 50 200 82" stroke={main} strokeWidth={9} fill="none" strokeLinecap="round" />
+          <path d="M114 70 L106 46 L128 62Z M186 70 L194 46 L172 62Z" fill={main} />
+          <path d="M140 64 L150 12 L160 64Z" fill={accent} />
+          {[0, 1, 2, 3].map((k) => (
+            <path key={k} d={`M${142 + k * 1.6} ${56 - k * 11} L${158 - k * 1.6} ${52 - k * 11}`} stroke="#e8a800" strokeWidth={2.5} strokeLinecap="round" />
+          ))}
+          {[118, 182].map((x) => (
+            <g key={x}>
+              {[0, 72, 144, 216, 288].map((a) => (
+                <circle key={a} cx={x + 5 * Math.cos((a * Math.PI) / 180)} cy={74 + 5 * Math.sin((a * Math.PI) / 180)} r={4.5} fill={trim} />
+              ))}
+              <circle cx={x} cy={74} r={3} fill="#fff6a8" />
+            </g>
+          ))}
+        </g>
+      );
+    case 'rainbow':
+      return (
+        <g>
+          {RAINBOW.map((col, i) => (
+            <path key={col} d={`M${104 + i * 4} 80 Q150 ${34 + i * 6} ${196 - i * 4} 80`} stroke={col} strokeWidth={5} fill="none" strokeLinecap="round" />
+          ))}
+          <path d="M98 82 q-6 -6 0 -12 q8 -2 10 6 q4 -8 10 -2 q2 8 -8 10Z M202 82 q6 -6 0 -12 q-8 -2 -10 6 q-4 -8 -10 -2 q-2 8 8 10Z" fill="#ffffff" />
+          <polygon points={starPoints(150, 40, 9)} fill="#ffd23f" />
+        </g>
+      );
     case 'tiara':
       return (
         <g>
@@ -385,6 +460,20 @@ function Necklace({ item, u }: { item: DressItem; u: string }) {
         </g>
       );
     }
+    case 'cloud':
+      return (
+        <g>
+          {chain}
+          {RAINBOW.slice(0, 4).map((col, i) => (
+            <path key={col} d={`M${140 + i * 2} 222 Q150 ${200 + i * 3} ${160 - i * 2} 222`} stroke={col} strokeWidth={2.5} fill="none" />
+          ))}
+          <g fill={main}>
+            <circle cx={142} cy={222} r={6} />
+            <circle cx={158} cy={222} r={6} />
+            <circle cx={150} cy={219} r={7} />
+          </g>
+        </g>
+      );
     case 'heart':
       return (
         <g>
@@ -449,6 +538,29 @@ function Wand({ item }: { item: DressItem }) {
         </g>
       );
       break;
+    case 'unicorn':
+      top = (
+        <g>
+          <path d={`M${tx - 10} ${ty + 14} L${tx} ${ty - 30} L${tx + 10} ${ty + 14}Z`} fill={main} />
+          {[0, 1, 2].map((k) => (
+            <path key={k} d={`M${tx - 8 + k * 2} ${ty + 6 - k * 11} L${tx + 8 - k * 2} ${ty + 2 - k * 11}`} stroke="#e8a800" strokeWidth={2.5} strokeLinecap="round" />
+          ))}
+          <circle cx={tx - 12} cy={ty + 14} r={5} fill={accent} />
+          <circle cx={tx + 12} cy={ty + 14} r={5} fill={accent} />
+        </g>
+      );
+      break;
+    case 'rainbow':
+      top = (
+        <g>
+          {RAINBOW.map((col, i) => (
+            <path key={col} d={`M${tx - 24 + i * 3.5} ${ty + 8} A${24 - i * 3.5} ${24 - i * 3.5} 0 0 1 ${tx + 24 - i * 3.5} ${ty + 8}`} stroke={col} strokeWidth={3.6} fill="none" />
+          ))}
+          <circle cx={tx - 24} cy={ty + 10} r={7} fill="#fff" />
+          <circle cx={tx + 24} cy={ty + 10} r={7} fill="#fff" />
+        </g>
+      );
+      break;
     case 'gem':
       top = (
         <g>
@@ -491,6 +603,16 @@ function Shoes({ item }: { item: DressItem }) {
                 <path d={`M${x - 12} 432 h24 q${dir * 6} 0 ${dir * 6} 5 h-34 q0 -5 4 -5Z`} fill={main} />
                 <path d={`M${x - 8} 432 L${x} 422 L${x + 8} 432`} stroke={main} strokeWidth={4} fill="none" />
                 <circle cx={x} cy={422} r={3} fill={trim} />
+              </g>
+            );
+          case 'rainbow':
+            return (
+              <g key={x}>
+                <path d={`M${x - 12} 420 q0 -6 8 -6 h10 q${dir * 14} 6 ${dir * 16} 16 h${-dir * 34}Z`} fill={main} />
+                {RAINBOW.slice(0, 4).map((col, k) => (
+                  <path key={col} d={`M${x - 10} ${417 + k * 3} h${18 + k * 3}`} stroke={col} strokeWidth={2.4} transform={dir < 0 ? `translate(${-6} 0)` : undefined} />
+                ))}
+                <rect x={x - 13} y={428} width={30} height={6} rx={3} fill={trim} transform={dir < 0 ? `translate(${-4} 0)` : undefined} />
               </g>
             );
           case 'sneaker':

@@ -40,6 +40,15 @@ const d = (id: string, slot: Slot, name: string, style: string, colors: [string,
 });
 
 export const DRESS_ITEMS: DressItem[] = [
+  // Unicorns & rainbows (first in each slot so they arrive early)
+  d('unicorn-horn', 'crown', 'Unicorn horn headband', 'unicorn', ['#ffd1ea', '#ffc531', '#b48cff']),
+  d('unicorn-tail', 'tail', 'Sea-unicorn tail', 'unicorn', ['#ffc2e6', '#d9c2ff', '#ffffff'], 'stars'),
+  d('unicorn-dress', 'dress', 'Unicorn party dress', 'unicorn', ['#d9c2ff', '#fff0fb', '#ffc531'], 'stars'),
+  d('cloud-necklace', 'necklace', 'Rainbow cloud necklace', 'cloud', ['#ffffff', '#ff8cc6', '#5fb8ff']),
+  d('unicorn-wand', 'wand', 'Unicorn horn wand', 'unicorn', ['#ffc531', '#ff8cc6', '#fff6a8']),
+  d('rainbow-tiara', 'crown', 'Rainbow tiara', 'rainbow', ['#ff6b6b', '#ffd23f', '#5fb8ff']),
+  d('rainbow-wand', 'wand', 'Rainbow wand', 'rainbow', ['#ff6b6b', '#b48cff', '#ffffff']),
+  d('rainbow-sneakers', 'shoes', 'Rainbow sneakers', 'rainbow', ['#ffffff', '#ff6b6b', '#5fb8ff']),
   // Dresses (for the land princess and the designer)
   d('rose-gown', 'dress', 'Rose ball gown', 'ballgown', ['#ff7eb6', '#ffc2dd', '#ffd84d'], 'none'),
   d('lilac-tutu', 'dress', 'Lilac tutu', 'tutu', ['#b48cff', '#e3d2ff', '#ffffff'], 'dots'),
@@ -96,6 +105,11 @@ export const DRESS_ITEMS: DressItem[] = [
 const s = (id: string, name: string, baseScale?: number): StickerItem => (baseScale ? { id: `st-${id}`, kind: 'sticker', name, baseScale } : { id: `st-${id}`, kind: 'sticker', name });
 
 export const STICKER_ITEMS: StickerItem[] = [
+  s('unicorn', 'Unicorn', 1.3),
+  s('rainbow-cloud', 'Rainbow cloud', 1.1),
+  s('sea-unicorn', 'Sea unicorn', 1.2),
+  s('baby-unicorn', 'Baby unicorn'),
+  s('rainbow-heart', 'Rainbow heart', 0.8),
   s('pink-shell', 'Pink scallop shell', 0.8),
   s('conch', 'Spiral shell', 0.8),
   s('pearl', 'Shiny pearl', 0.6),

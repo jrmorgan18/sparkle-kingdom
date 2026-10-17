@@ -26,7 +26,7 @@ There's no backend, no accounts, no ads, no purchases, and no external services.
 ```bash
 npm install
 npm run dev          # http://localhost:5173 (add --host to open it from a tablet on your Wi-Fi)
-npm test             # 73 unit tests (Vitest)
+npm test             # 75 unit tests (Vitest)
 npx playwright install chromium webkit   # one-time
 npm run test:e2e     # 12 browser tests × 2 devices: Android tablet (Chromium) + iPad (WebKit)
 npm run build        # static site in dist/
@@ -97,14 +97,15 @@ All of this lives in pure, unit-tested modules: `mastery.ts`, `selection.ts`, `s
 - **When:** one reward per finished adventure, and one per newly learned item. Never for tapping alone.
 - **Cap:** at most 3 learn-rewards are revealed per adventure, so the ending stays short. The rest wait in a "reward bank" for next time, so every learned item is eventually rewarded.
 - **Catalog:**
-  - **45 dress-up items** (11 dresses, 8 mermaid tails, 8 crowns, 6 shoes, 6 necklaces, 6 wands)
-  - **30 stickers**
+  - **53 dress-up items** (12 dresses, 9 mermaid tails, 10 crowns, 7 shoes, 7 necklaces, 8 wands), including a unicorn horn headband, sea-unicorn tail, unicorn dress, rainbow tiara, and rainbow sneakers
+  - **35 stickers**, including unicorns, a sea unicorn, a rainbow cloud, and a rainbow heart
+  - Unicorn and rainbow pieces come first in the reward order, so they show up early
   - Once everything is owned, rewards become bonus stars.
 - **Dress-up studio:**
   - three original characters: Pearl (a mermaid, so tails), Rosie (a land princess), and Gigi (a designer)
   - tap or drag items on, tap again to take one off
   - twirl in the mirror, save up to 6 looks, and save a look as a picture
-- **Decorate:** Word Quest's scene editor with picture-only controls, across three scenes: Undersea Castle, Royal Ballroom, and Seashell Lagoon. You can:
+- **Decorate:** Word Quest's scene editor with picture-only controls, across four scenes: Undersea Castle, Royal Ballroom, Seashell Lagoon, and Rainbow Cloud Kingdom. You can:
   - drag stickers, or tap one and then tap the scene to place it
   - resize, layer, flip, and remove them
   - reset the scene (asks for confirmation)
@@ -115,7 +116,7 @@ All art is original SVG bundled with the app. The characters, outfits, and scene
 
 ## Recording voices
 
-Grown-ups → **Record voices** lists every clip the game uses, 119 with the default curriculum:
+Grown-ups → **Record voices** lists every clip the game uses, 121 with the default curriculum:
 
 - each sight word
 - the numbers 0–20 (up to 30 if you extend the counting range)
@@ -209,7 +210,7 @@ scripts/        icon generator; shots*.mjs dev helpers for screenshots against `
 
 ## Testing notes
 
-- **Unit tests (73):**
+- **Unit tests (75):**
   - curriculum integrity
   - session composition and the category mix
   - prioritization of missed items

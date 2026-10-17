@@ -27,10 +27,11 @@ export function Home() {
       <h1 className="sr-only">Pearl’s Sparkle Kingdom</h1>
       <div className="flex w-full items-start justify-between">
         <StickerSvg id="st-seahorse" variant="plain" className="h-[14vh] w-[14vh] animate-bob" />
-        <p className="hidden font-display text-3xl font-semibold text-royal/80 sm:block" aria-hidden>
-          Pearl’s Sparkle Kingdom
-        </p>
-        <StickerSvg id="st-crab" variant="plain" className="h-[12vh] w-[12vh]" />
+        <div className="relative hidden sm:block" aria-hidden>
+          <StickerSvg id="st-rainbow" variant="plain" className="absolute left-1/2 top-[-2vh] h-[14vh] w-[22vh] -translate-x-1/2 opacity-70" />
+          <p className="relative pt-[5vh] font-display text-3xl font-semibold text-royal/90">Pearl’s Sparkle Kingdom</p>
+        </div>
+        <StickerSvg id="st-unicorn" variant="plain" className="h-[16vh] w-[16vh] animate-bob" />
       </div>
       <div className="flex min-h-0 flex-1 items-center justify-center gap-[4vmin] portrait:flex-col landscape:flex-row">
         <button

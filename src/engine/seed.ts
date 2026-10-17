@@ -3,7 +3,7 @@ import { DEFAULT_CONFIG, DEFAULT_SETTINGS } from './config';
 import { SCHEMA_VERSION, type AppState, type CharacterId, type Dressing, type SceneId } from './types';
 import { emptyWeekProgress } from './weeks';
 
-export const SCENE_IDS: SceneId[] = ['castle', 'ballroom', 'lagoon'];
+export const SCENE_IDS: SceneId[] = ['castle', 'ballroom', 'lagoon', 'rainbow'];
 export const CHARACTER_IDS: CharacterId[] = ['pearl', 'rosie', 'gigi'];
 
 export function emptyDressing(): Dressing {
@@ -26,6 +26,7 @@ export function createInitialState(now: number): AppState {
       castle: { id: 'castle', placements: [], updatedAt: null },
       ballroom: { id: 'ballroom', placements: [], updatedAt: null },
       lagoon: { id: 'lagoon', placements: [], updatedAt: null },
+      rainbow: { id: 'rainbow', placements: [], updatedAt: null },
     },
     dressing: emptyDressing(),
     sessions: [],

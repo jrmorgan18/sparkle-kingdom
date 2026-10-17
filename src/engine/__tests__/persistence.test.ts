@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { groupForPlayback, partsText, prompts, resolveParts, sentenceParts } from '../../audio/clips';
-import { bundledCurriculum } from '../../data/curriculum';
+import { bundledCurriculum, CURRICULUM_VERSION } from '../../data/curriculum';
 import { _resetDbConnection, allClips, clearClips, clearDoc, deleteClip, getClip, loadDoc, putClip, replaceAllClips, saveDoc, type ClipRecord } from '../../persistence/db';
 import { base64ToBytes, bytesToBase64, estimateBackupBytes, exportFull, importFull, LARGE_BACKUP_BYTES, parseBackup } from '../backup';
 import { saveLook } from '../looks';
@@ -170,6 +170,18 @@ describe('schema migrations', () => {
     expect(m.weekProgress['week-1'].unlocked).toBe(true);
   });
 
+  it('upgrades a save made before the unicorn update: new scene, refreshed sentences, progress kept', () => {
+    const old: any = playedState();
+    old.curriculum.version = 1;
+    old.curriculum.words.look = { id: 'look', text: 'look', sentence: 'Look at me!' };
+    delete old.scenes.rainbow;
+    const skills = structuredClone(old.skills);
+    const m = migrateState(old, T0);
+    expect(m.scenes.rainbow).toEqual({ id: 'rainbow', placements: [], updatedAt: null });
+    expect(m.curriculum.words.look).toMatchObject({ sentence: 'Look, a rainbow!', picture: 'rainbow' });
+    expect(m.skills).toEqual(skills);
+  });
+
   it('refuses documents from a newer schema', () => {
     expect(() => migrateState({ ...freshState(), schemaVersion: 999 }, T0)).toThrow(/newer version/);
   });
@@ -179,7 +191,7 @@ describe('schema migrations', () => {
     parentUpdateWord(s, 'see', { sentence: 'I see Mom.' });
     const skillsBefore = structuredClone(s.skills);
     const next = bundledCurriculum();
-    next.version = 2;
+    next.version = CURRICULUM_VERSION + 1;
     next.words.a.sentence = 'A new bundled sentence with a.';
     next.words.see.sentence = 'Bundled should NOT win, see.';
     next.words.zoo = { id: 'zoo', text: 'zoo', sentence: 'A big zoo.' };

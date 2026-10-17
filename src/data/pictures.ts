@@ -25,6 +25,8 @@ export const PICTURE_IDS = [
   'heart',
   'castle',
   'wave',
+  'unicorn',
+  'rainbow',
 ] as const;
 
 export type PictureId = (typeof PICTURE_IDS)[number];
@@ -59,4 +61,6 @@ export const PICTURE_LABELS: Record<PictureId, string> = {
   heart: 'Heart',
   castle: 'Castle',
   wave: 'Wave',
+  unicorn: 'Unicorn',
+  rainbow: 'Rainbow',
 };

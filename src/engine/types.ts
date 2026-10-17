@@ -86,7 +86,7 @@ export interface StickerPlacement {
   flip?: boolean;
 }
 
-export type SceneId = 'castle' | 'ballroom' | 'lagoon';
+export type SceneId = 'castle' | 'ballroom' | 'lagoon' | 'rainbow';
 
 export interface SceneState {
   id: SceneId;

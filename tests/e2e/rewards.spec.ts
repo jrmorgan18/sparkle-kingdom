@@ -6,13 +6,13 @@ test('earn a dress-up item from an adventure, equip it, save a look, and keep it
   await playAdventure(page);
   const s = await readState(page);
   const earned = Object.keys(s.owned)[0];
-  expect(earned).toBe('dr-gold-crown');
+  expect(earned).toBe('dr-unicorn-horn');
   await finishToHome(page);
 
   await page.getByTestId('dress-up').tap();
   await expect(page.getByTestId('dress-up-screen')).toHaveAttribute('data-character', 'pearl');
   await page.getByTestId('slot-crown').tap();
-  const item = page.getByTestId('wear-dr-gold-crown');
+  const item = page.getByTestId('wear-dr-unicorn-horn');
   await item.tap();
   await expect(item).toHaveAttribute('aria-pressed', 'true');
   await page.getByTestId('save-look').tap();
@@ -20,18 +20,18 @@ test('earn a dress-up item from an adventure, equip it, save a look, and keep it
 
   // The treasure chest shows the earned crown; everything else is a sparkly silhouette.
   await page.getByTestId('open-collection').tap();
-  await expect(page.getByTestId('collect-dr-gold-crown')).toHaveAttribute('data-owned', 'true');
+  await expect(page.getByTestId('collect-dr-unicorn-horn')).toHaveAttribute('data-owned', 'true');
   await expect(page.getByTestId('collect-st-pink-shell')).toHaveAttribute('data-owned', 'false');
 
   await page.waitForTimeout(600);
   await page.goto('/#/dress-up');
   await page.reload();
   await page.getByTestId('slot-crown').tap();
-  await expect(page.getByTestId('wear-dr-gold-crown')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByTestId('wear-dr-unicorn-horn')).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByTestId('look')).toHaveCount(1);
   // Taking it off doesn't lose it.
-  await page.getByTestId('wear-dr-gold-crown').tap();
-  await expect(page.getByTestId('wear-dr-gold-crown')).toHaveAttribute('aria-pressed', 'false');
+  await page.getByTestId('wear-dr-unicorn-horn').tap();
+  await expect(page.getByTestId('wear-dr-unicorn-horn')).toHaveAttribute('aria-pressed', 'false');
 });
 
 test('decorate a scene: tap-to-place, drag, resize, layer, remove, reset with confirmation, reload', async ({ page }) => {

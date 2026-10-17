@@ -9,6 +9,7 @@ export const SCENE_INFO: Record<SceneId, { title: string; color: string }> = {
   castle: { title: 'Undersea Castle', color: '#17b3ad' },
   ballroom: { title: 'Royal Ballroom', color: '#7b4bd6' },
   lagoon: { title: 'Seashell Lagoon', color: '#3a8dff' },
+  rainbow: { title: 'Rainbow Cloud Kingdom', color: '#ff8cc6' },
 };
 
 function Bubbles({ seed = 1 }: { seed?: number }) {
@@ -158,9 +159,65 @@ function SeashellLagoon({ u }: { u: string }) {
   );
 }
 
+
+function RainbowKingdom({ u }: { u: string }) {
+  const bands = ['#ff6b6b', '#ffa94d', '#ffd23f', '#69db7c', '#5fb8ff', '#b48cff'];
+  const cloud = (x: number, y: number, s: number) => (
+    <g fill="#ffffff" transform={`translate(${x} ${y}) scale(${s})`}>
+      <circle cx={-70} cy={10} r={50} />
+      <circle cx={0} cy={-20} r={70} />
+      <circle cx={75} cy={10} r={50} />
+      <rect x={-120} y={0} width={240} height={60} rx={30} />
+    </g>
+  );
+  return (
+    <g>
+      <defs>
+        <linearGradient id={`${u}r`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#ffd9f0" />
+          <stop offset="0.55" stopColor="#e9dcff" />
+          <stop offset="1" stopColor="#d4f1ff" />
+        </linearGradient>
+      </defs>
+      <rect width={SCENE_W} height={SCENE_H} fill={`url(#${u}r)`} />
+      {/* big rainbow */}
+      {bands.map((c, i) => (
+        <path key={c} d={`M${160 + i * 46} 760 A${640 - i * 46} ${640 - i * 46} 0 0 1 ${1440 - i * 46} 760`} stroke={c} strokeWidth={48} fill="none" />
+      ))}
+      {/* cloud castle */}
+      <g transform="translate(800 520)">
+        <rect x={-110} y={-120} width={220} height={170} rx={20} fill="#ffc9e3" />
+        {[-150, 0, 150].map((x, i) => (
+          <g key={x}>
+            <rect x={x - 34} y={i === 1 ? -230 : -170} width={68} height={i === 1 ? 280 : 220} rx={14} fill="#ffb3d6" />
+            <rect x={x - 12} y={i === 1 ? -160 : -110} width={24} height={34} rx={12} fill="#9a6ae0" opacity={0.7} />
+            <path d={`M${x - 46} ${i === 1 ? -224 : -164} L${x} ${i === 1 ? -320 : -250} L${x + 46} ${i === 1 ? -224 : -164}Z`} fill="#b48cff" />
+            <circle cx={x} cy={i === 1 ? -330 : -260} r={12} fill="#ffd23f" />
+          </g>
+        ))}
+        <path d="M-36 50 V-20 Q0 -60 36 -20 V50Z" fill="#ff8cc6" />
+      </g>
+      {/* clouds and floating islands */}
+      {cloud(170, 790, 1.2)}
+      {cloud(1430, 790, 1.2)}
+      {cloud(800, 600, 1.25)}
+      {cloud(340, 200, 0.6)}
+      {cloud(1250, 160, 0.5)}
+      <path d="M0 880 Q400 820 800 870 T1600 860 V1000 H0Z" fill="#ffffff" />
+      <path d="M0 940 Q400 900 800 940 T1600 930 V1000 H0Z" fill="#f3eaff" />
+      {[[220, 380], [1380, 330], [600, 120], [1050, 90]].map(([x, y], i) => (
+        <polygon key={i} points={starPoints(x, y, 22)} fill="#ffd23f" opacity={0.9} />
+      ))}
+      <Sparkle cx={480} cy={420} r={16} fill="#ffffff" />
+      <Sparkle cx={1120} cy={420} r={14} fill="#ffffff" />
+    </g>
+  );
+}
+
 export function SceneBackground({ id, u }: { id: SceneId; u: string }) {
   if (id === 'castle') return <UnderseaCastle u={u} />;
   if (id === 'ballroom') return <RoyalBallroom u={u} />;
+  if (id === 'rainbow') return <RainbowKingdom u={u} />;
   return <SeashellLagoon u={u} />;
 }
 

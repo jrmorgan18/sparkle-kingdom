@@ -6,7 +6,7 @@
 import type { PictureId } from './pictures';
 import type { Curriculum, SightWord } from './types';
 
-export const CURRICULUM_VERSION = 1;
+export const CURRICULUM_VERSION = 2;
 
 type Row = [text: string, sentence: string, picture?: PictureId];
 
@@ -34,7 +34,7 @@ const WEEKS: Row[][] = [
   [
     ['up', 'Look up!', 'balloon'],
     ['down', 'Look down!', 'crab'],
-    ['look', 'Look at me!'],
+    ['look', 'Look, a rainbow!', 'rainbow'],
   ],
   [
     ['big', 'A big fish.', 'big-fish'],
@@ -48,11 +48,11 @@ const WEEKS: Row[][] = [
   ],
   [
     ['and', 'You and me.', 'friends'],
-    ['you', 'I see you!'],
+    ['you', 'I see you!', 'unicorn'],
     ['me', 'Help me!'],
   ],
   [
-    ['here', 'Come here!'],
+    ['here', 'Come here, unicorn!', 'unicorn'],
     ['play', 'We can play.', 'friends'],
     ['said', 'Mom said yes.'],
   ],

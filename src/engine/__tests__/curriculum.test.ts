@@ -38,7 +38,7 @@ describe('sight-word curriculum', () => {
 
   it('pictures are valid, and words without a natural picture have none', () => {
     for (const w of Object.values(c.words)) if (w.picture) expect(isPictureId(w.picture), w.id).toBe(true);
-    for (const id of ['look', 'you', 'here', 'said']) expect(c.words[id].picture).toBeUndefined();
+    for (const id of ['said', 'me', 'help']) expect(c.words[id].picture).toBeUndefined();
   });
 
   it('prints "I" capitalized and every other word lowercase', () => {
@@ -58,6 +58,13 @@ describe('reward catalog', () => {
     const ids = ALL_REWARDS.map((r) => r.id);
     expect(new Set(ids).size).toBe(ids.length);
     expect([...REWARD_ORDER].sort()).toEqual([...ids].sort());
+  });
+
+  it('includes unicorns and rainbows, and gives them early', () => {
+    const names = ALL_REWARDS.map((r) => r.name.toLowerCase());
+    expect(names.filter((n) => n.includes('unicorn')).length).toBeGreaterThanOrEqual(7);
+    expect(names.filter((n) => n.includes('rainbow')).length).toBeGreaterThanOrEqual(8);
+    expect(REWARD_ORDER.slice(0, 2)).toEqual(['dr-unicorn-horn', 'st-unicorn']);
   });
 
   it('interleaves dress-up items and stickers early on', () => {

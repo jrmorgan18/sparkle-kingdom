@@ -30,7 +30,7 @@ export function ScenePicker() {
         <KidButton icon="home" label="Go home" data-testid="go-home" onClick={() => go(routes.home())} />
         <HearAgain />
       </header>
-      <main className="grid gap-4 p-4 sm:grid-cols-3">
+      <main className="grid gap-4 p-4 sm:grid-cols-2">
         {SCENE_IDS.map((id) => (
           <button key={id} type="button" data-testid={`scene-${id}`} aria-label={SCENE_INFO[id].title} onClick={() => go(routes.decorate(id))} className="btn-3d overflow-hidden rounded-[2rem] bg-white">
             <svg viewBox={`0 0 ${SCENE_W} ${SCENE_H}`} className="block aspect-[16/10] w-full" aria-hidden>
@@ -195,7 +195,11 @@ export function SceneEditor({ sceneId }: { sceneId: SceneId }) {
       </header>
       <div className="flex min-h-0 flex-1 gap-3 px-3 pb-3 portrait:flex-col landscape:flex-row">
         <div className="flex min-h-0 min-w-0 flex-1 items-center justify-center">
-          <div className="relative w-full max-w-full overflow-hidden rounded-[2rem] border-4 border-white shadow-[0_8px_0_rgba(59,34,87,0.1)] landscape:h-full landscape:w-auto" style={{ touchAction: 'none', aspectRatio: `${SCENE_W} / ${SCENE_H}`, maxHeight: '100%' }}>
+          <div
+            className="relative w-full overflow-hidden rounded-[2rem] border-4 border-white shadow-[0_8px_0_rgba(59,34,87,0.1)]"
+            // Exactly the scene's shape (never letterboxed), so finger position maps 1:1 onto the scene.
+            style={{ touchAction: 'none', aspectRatio: `${SCENE_W} / ${SCENE_H}`, maxWidth: `calc((100dvh - 150px) * ${SCENE_W / SCENE_H})` }}
+          >
             <svg
               ref={svgRef}
               viewBox={`0 0 ${SCENE_W} ${SCENE_H}`}

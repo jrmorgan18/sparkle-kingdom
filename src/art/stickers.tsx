@@ -85,7 +85,109 @@ function fishBody(u: string, body: string, fin: string, stripe?: string): ReactN
   );
 }
 
+
+const RAINBOW = ['#ff6b6b', '#ffa94d', '#ffd23f', '#69db7c', '#5fb8ff', '#b48cff'];
+
+/** A cute unicorn head (facing right) with a golden horn and rainbow mane. Head center ≈ (cx, cy). */
+function unicornHead(cx: number, cy: number, s = 1): ReactNode {
+  const t = (x: number, y: number) => `${cx + x * s} ${cy + y * s}`;
+  return (
+    <g>
+      {/* rainbow mane behind the head */}
+      {RAINBOW.map((c, i) => (
+        <circle key={c} cx={cx - (14 + i * 4) * s} cy={cy + (-26 + i * 12) * s} r={13 * s} fill={c} />
+      ))}
+      <path d={`M${t(-8, -28)} L${t(-2, -48)} L${t(6, -28)}Z`} fill="#fff0fb" />
+      <path d={`M${t(-3, -30)} L${t(-1, -42)} L${t(3, -30)}Z`} fill="#ffc2dd" />
+      <ellipse cx={cx} cy={cy} rx={30 * s} ry={27 * s} fill="#fffaff" />
+      <ellipse cx={cx + 22 * s} cy={cy + 12 * s} rx={17 * s} ry={14 * s} fill="#ffe3f2" />
+      <circle cx={cx + 27 * s} cy={cy + 10 * s} r={2.2 * s} fill="#e88ab5" />
+      {/* horn */}
+      <path d={`M${t(4, -24)} L${t(14, -66)} L${t(20, -22)}Z`} fill="#ffd23f" />
+      {[0, 1, 2].map((k) => (
+        <path key={k} d={`M${t(6 + k * 2.4, -30 - k * 11)} L${t(18 - k * 1.6, -34 - k * 10)}`} stroke="#e8a800" strokeWidth={2.5 * s} strokeLinecap="round" />
+      ))}
+      {/* happy closed eye + lashes */}
+      <path d={`M${t(0, -2)} Q${t(7, 5)} ${t(14, -2)}`} stroke={INK} strokeWidth={3 * s} fill="none" strokeLinecap="round" />
+      <path d={`M${t(2, 1)} l${-3 * s} ${4 * s} M${t(7, 3)} l0 ${5 * s} M${t(12, 1)} l${3 * s} ${4 * s}`} stroke={INK} strokeWidth={2 * s} strokeLinecap="round" />
+      <ellipse cx={cx + 8 * s} cy={cy + 14 * s} rx={7 * s} ry={4.5 * s} fill="#ff9fc8" opacity={0.6} />
+      <path d={`M${t(26, 20)} q${-5 * s} ${4 * s} ${-10 * s} ${1 * s}`} stroke={INK} strokeWidth={2.5 * s} fill="none" strokeLinecap="round" />
+    </g>
+  );
+}
+
 export const STICKER_ART: Record<string, Art> = {
+  'st-unicorn': () => (
+    <g>
+      {/* rainbow tail */}
+      {RAINBOW.map((c, i) => (
+        <path key={c} d={`M44 ${104 + i * 3} Q${14 - i * 2} ${118 + i * 6} ${30 - i} ${160 + i * 3}`} stroke={c} strokeWidth={7} fill="none" strokeLinecap="round" />
+      ))}
+      {[56, 76, 104, 124].map((x, i) => (
+        <g key={x}>
+          <rect x={x} y={126} width={14} height={50} rx={7} fill={i % 2 ? '#fff4fb' : '#fffaff'} />
+          <rect x={x} y={166} width={14} height={11} rx={4} fill="#ff9fc8" />
+        </g>
+      ))}
+      <ellipse cx={92} cy={120} rx={52} ry={30} fill="#fffaff" />
+      <path d="M120 112 Q132 82 138 70 L160 84 Q150 108 140 124Z" fill="#fffaff" />
+      {unicornHead(148, 70, 0.85)}
+      <Sparkle cx={34} cy={40} r={9} fill="#ffd23f" />
+      <Sparkle cx={70} cy={66} r={6} fill="#ff9fc8" />
+    </g>
+  ),
+  'st-baby-unicorn': () => (
+    <g>
+      {unicornHead(96, 116, 1.45)}
+      <Sparkle cx={170} cy={40} r={10} fill="#ffd23f" />
+      <Sparkle cx={34} cy={170} r={7} fill="#b48cff" />
+    </g>
+  ),
+  'st-sea-unicorn': () => (
+    <g>
+      <path d="M96 130 Q70 150 80 172 Q96 186 120 176" stroke="#ffc2e6" strokeWidth={30} fill="none" strokeLinecap="round" />
+      <path d="M118 176 Q140 160 160 172 Q146 180 150 196 Q134 186 118 176Z" fill="#b48cff" />
+      <path d="M120 176 L150 170 M120 176 L146 188" stroke="#d9c2ff" strokeWidth={3} />
+      <ellipse cx={100} cy={118} rx={34} ry={30} fill="#fffaff" />
+      {[0, 1, 2].map((k) => (
+        <path key={k} d={`M${84 + k * 6} ${132 + k * 14} q12 -6 22 2`} stroke="#d9c2ff" strokeWidth={4} fill="none" strokeLinecap="round" />
+      ))}
+      {unicornHead(112, 76, 0.95)}
+      <circle cx={160} cy={130} r={7} fill="none" stroke="#8fd8ff" strokeWidth={3} />
+      <circle cx={170} cy={110} r={4} fill="none" stroke="#8fd8ff" strokeWidth={3} />
+    </g>
+  ),
+  'st-rainbow-cloud': () => (
+    <g>
+      {RAINBOW.map((c, i) => (
+        <rect key={c} x={56 + i * 15} y={96} width={15} height={84 - Math.abs(i - 2.5) * 10} rx={7} fill={c} />
+      ))}
+      <g fill="#ffffff">
+        <circle cx={60} cy={92} r={30} />
+        <circle cx={100} cy={70} r={40} />
+        <circle cx={142} cy={92} r={30} />
+        <rect x={50} y={88} width={104} height={32} rx={16} />
+      </g>
+      <path d="M84 84 q6 6 12 0 M108 84 q6 6 12 0" stroke={INK} strokeWidth={3.5} fill="none" strokeLinecap="round" />
+      <path d="M94 100 Q102 108 110 100" stroke={INK} strokeWidth={3.5} fill="none" strokeLinecap="round" />
+      {cheeks(78, 126, 98)}
+    </g>
+  ),
+  'st-rainbow-heart': (u) => (
+    <g>
+      <defs>
+        <clipPath id={`${u}rh`}>
+          <path d="M100 172 C24 124 30 44 78 46 C90 47 98 56 100 66 C102 56 110 47 122 46 C170 44 176 124 100 172Z" />
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#${u}rh)`}>
+        {RAINBOW.map((c, i) => (
+          <rect key={c} x={20} y={40 + i * 23} width={160} height={24} fill={c} />
+        ))}
+      </g>
+      <ellipse cx={70} cy={74} rx={12} ry={8} fill="#fff" opacity={0.6} transform="rotate(-30 70 74)" />
+    </g>
+  ),
   'st-pink-shell': () => scallop('#ff9fc8', '#ffd1e6'),
   'st-conch': () => (
     <g>
