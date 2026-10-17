@@ -1,0 +1,62 @@
+/** Picture ids that a sight-word sentence can use. Art lives in src/art/pictures.tsx. */
+export const PICTURE_IDS = [
+  'fish',
+  'star',
+  'stars-1',
+  'stars-2',
+  'stars-3',
+  'shell',
+  'boat',
+  'crown',
+  'frog',
+  'cake',
+  'bed',
+  'box',
+  'balloon',
+  'crab',
+  'big-fish',
+  'little-fish',
+  'dog',
+  'red-ball',
+  'blue-bird',
+  'sun',
+  'friends',
+  'mermaid',
+  'heart',
+  'castle',
+  'wave',
+] as const;
+
+export type PictureId = (typeof PICTURE_IDS)[number];
+
+export function isPictureId(v: unknown): v is PictureId {
+  return typeof v === 'string' && (PICTURE_IDS as readonly string[]).includes(v);
+}
+
+export const PICTURE_LABELS: Record<PictureId, string> = {
+  fish: 'Fish',
+  star: 'Star',
+  'stars-1': 'One star',
+  'stars-2': 'Two stars',
+  'stars-3': 'Three stars',
+  shell: 'Shell',
+  boat: 'Boat',
+  crown: 'Crown',
+  frog: 'Jumping frog',
+  cake: 'Cake',
+  bed: 'Bed',
+  box: 'Box',
+  balloon: 'Balloon going up',
+  crab: 'Crab',
+  'big-fish': 'Big fish',
+  'little-fish': 'Little fish',
+  dog: 'Running puppy',
+  'red-ball': 'Red ball',
+  'blue-bird': 'Blue bird',
+  sun: 'Yellow sun',
+  friends: 'Two friends',
+  mermaid: 'Pearl',
+  heart: 'Heart',
+  castle: 'Castle',
+  wave: 'Wave',
+};
